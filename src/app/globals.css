@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Ceiling for the `cap-*` utility family: they scale proportionally from
+     1920px up to this width, then freeze. Change it here and every cap-*
+     utility follows. */
+  --uw-cap: 2600;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-avenir);
+  --font-arimo: var(--font-arimo);
+
+  /* Above 1920px, the `uw:` variant kicks in for uncapped vw-based scaling (Responsive scaling rule in claude.md). Below 1920px use normal fixed/responsive classes. */
+  --breakpoint-uw: 120rem;
+
+  /* 2560px — standard wide-monitor width. Above this the layout switches to
+     the 3840 Figma design, which is a different composition, not the 1920 one
+     scaled up. It sits just under --uw-cap (2600), so the 1920 layout hands
+     off right before it would freeze. Must stay in rem: Tailwind sorts
+     breakpoints by value, and a px one gets mis-ordered against the rem
+     defaults. */
+  --breakpoint-xw: 160rem;
+
+  --color-text-default: #1e1e1e;
+
+  --color-primary-blue: #233298;
+  --color-primary-navy: #101055;
+  --color-periwinkle: #496ff4;
+  --color-mid-blue: #293eb3;
+  --color-dark-navy: #202e88;
+  --color-sky-blue: #4c9cde;
+  --color-purple: #8036ab;
+  --color-magenta: #ab4295;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* DEFAULT ultra-wide scaling: plain proportional vw, 1:1 with viewport width.
+   Give X = the element's exact px value at the Figma 1920 frame, get back
+   the equivalent vw (X / 1920 * 100) */
+@utility uw-w-* {
+  width: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-h-* {
+  height: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-text-* {
+  font-size: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-leading-* {
+  line-height: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-max-w-* {
+  max-width: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-top-* {
+  top: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-left-* {
+  left: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-right-* {
+  right: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-mt-* {
+  margin-top: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-pt-* {
+  padding-top: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-px-* {
+  padding-inline: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-gap-* {
+  gap: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+
+/* CAPPED scaling: same proportional growth as uw-*, but it stops at
+   --uw-cap (2600px) instead of growing forever. Use this where uncapped
+   growth gets absurd on very wide screens — padding, gaps, side margins.
+   X is still the element's exact px value at the Figma 1920 frame.
+   e.g. cap-px-122 → 122px at 1920, 165.2px at 2600, and stays 165.2px at 3840.
+   Pair with the `uw:` variant, same as the uw-* family. */
+@utility cap-w-* {
+  width: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-h-* {
+  height: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-text-* {
+  font-size: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-leading-* {
+  line-height: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-max-w-* {
+  max-width: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-top-* {
+  top: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-left-* {
+  left: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-right-* {
+  right: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-mt-* {
+  margin-top: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-pt-* {
+  padding-top: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-px-* {
+  padding-inline: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-py-* {
+  padding-block: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-gap-* {
+  gap: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-p-* {
+  padding: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-pb-* {
+  padding-bottom: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-pl-* {
+  padding-left: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-pr-* {
+  padding-right: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-mr-* {
+  margin-right: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-rounded-* {
+  border-radius: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+
+/* Negative offsets. Write the number unsigned — `-uw-top-50` is -50px at 1920.
+   If a capped negative is ever needed, it has to use max() instead of min():
+   with negative numbers the ceiling is the *larger* value, so min() would let
+   it keep growing past the cap instead of freezing. */
+@utility -uw-top-* {
+  top: calc(--value(integer) / 1920 * -100 * 1vw);
+}
+@utility -uw-left-* {
+  left: calc(--value(integer) / 1920 * -100 * 1vw);
+}
+@utility -uw-right-* {
+  right: calc(--value(integer) / 1920 * -100 * 1vw);
+}
+@utility -cap-mt-* {
+  margin-top: max(calc(--value(integer) / 1920 * -100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * -1px));
+}
+@utility -cap-top-* {
+  top: max(calc(--value(integer) / 1920 * -100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * -1px));
+}
+@utility -cap-left-* {
+  left: max(calc(--value(integer) / 1920 * -100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * -1px));
+}
+
+
+/* Arrow that sits after the label on CTA buttons. Kept out of the JSX because
+   the Figma SVG export embeds the whole 1920x1080 source image just to show a
+   ~19x20 crop — this is that crop, saved as a 2.4KB png instead.
+   Add `cta-arrow` to a flex container; it comes in as the last flex item, so
+   the container's own `gap` controls the spacing. */
+/* Shared look of every CTA pill. Only the sizing (height, width, padding,
+   gap, font-size, margins) stays in the component, since that differs per
+   section — everything visual lives here so it isn't repeated per button. */
+@layer components {
+  .cta-arrow {
+    position: relative;
+    z-index: 40;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgb(0 0 0 / 0.5);
+    border-radius: 9999px;
+    gap: 1.07em;
+    font-size: min(calc(28 / 1920 * 100 * 1vw), calc(28 * var(--uw-cap) / 1920 * 1px));
+    padding: 0.66em 1.32em;
+    line-height:1;
+    font-weight: 300;
+    color: #1e1e1e;
+  }
+
+  .cta-arrow::after {
+    content: "";
+    display: block;
+    flex: none;
+    width: 0.86em;
+    height: 0.93em;
+    background: url("/images/home/arrow.png") center / contain no-repeat;
+    transition: translate var(--default-transition-duration)
+      var(--default-transition-timing-function);
+  }
+
+  /* On hover only the arrow moves, not the button. The offset is a percentage of
+     the arrow's own width, so it stays proportional on every screen size instead
+     of being a fixed nudge that looks tiny on a 4K display. */
+  .cta-arrow:hover::after {
+    translate: 10% 0;
+  }
+}
+
+
+/* Capped at the widest frame we design for. Below that it's full-width — side
+   spacing is handled per-section with padding utilities, not by the container.
+   `margin-inline: auto` keeps it centred once past the cap; without it the
+   layout would sit against the left edge on anything wider than 3840. */
+@utility container {
+  width: 100%;
+  max-width: 3840px;
+  margin-inline: auto;
+}
