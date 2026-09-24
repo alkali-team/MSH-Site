@@ -11,7 +11,7 @@ import Image from "next/image";
 export default function Header() {
   return (
     <header className="relative z-50 w-full bg-white">
-      <div className="container flex items-center justify-between lg:px-[122px] lg:pt-[43px] lg:pb-5 uw:cap-px-122 uw:cap-pt-43">
+      <div className="container flex items-center justify-between lg:px-[100px] lg:pt-[43px] lg:pb-5 uw:cap-px-100 uw:cap-pt-43">
         <Image
           src="/images/nav/logo.png"
           alt="MSH — Powered by Aeon"

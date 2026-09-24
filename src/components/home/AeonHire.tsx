@@ -25,7 +25,7 @@ import Image from "next/image";
 export default function AeonHire() {
   return (
     <section className="relative w-full overflow-x-clip bg-white">
-      <div className="container flex flex-col cap-py-80 cap-px-126 xw:flex-row xw:items-center xw:justify-between xw:px-[5.44%] xw:py-[2.6%]">
+      <div className="container flex flex-col cap-py-80 cap-px-100 xw:flex-row xw:items-center xw:justify-between xw:px-[5.44%] xw:py-[2.6%]">
         {/*
           Image left, text right, vertically centred. The artwork is wider than
           its own column (max-w-none defeats the preflight img rule) so the glow

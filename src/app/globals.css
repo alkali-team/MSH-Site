@@ -79,11 +79,23 @@ body {
 @utility uw-pt-* {
   padding-top: calc(--value(integer) / 1920 * 100 * 1vw);
 }
+@utility uw-pl-* {
+  padding-left: calc(--value(integer) / 1920 * 100 * 1vw);
+}
 @utility uw-px-* {
   padding-inline: calc(--value(integer) / 1920 * 100 * 1vw);
 }
+@utility uw-py-* {
+  padding-block: calc(--value(integer) / 1920 * 100 * 1vw);
+}
 @utility uw-gap-* {
   gap: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-gap-x-* {
+  column-gap: calc(--value(integer) / 1920 * 100 * 1vw);
+}
+@utility uw-gap-y-* {
+  row-gap: calc(--value(integer) / 1920 * 100 * 1vw);
 }
 
 /* CAPPED scaling: same proportional growth as uw-*, but it stops at
@@ -134,6 +146,12 @@ body {
 @utility cap-p-* {
   padding: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
 }
+@utility cap-gap-x-* {
+  column-gap: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-gap-y-* {
+  row-gap: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
 @utility cap-pb-* {
   padding-bottom: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
 }
@@ -142,6 +160,18 @@ body {
 }
 @utility cap-pr-* {
   padding-right: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-my-* {
+  margin-block: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-mb-* {
+  margin-bottom: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-ml-* {
+  margin-left: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
+}
+@utility cap-mx-* {
+  margin-inline: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
 }
 @utility cap-mr-* {
   margin-right: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
@@ -217,6 +247,17 @@ body {
   }
 }
 
+
+/* Fondo de la seccion Why MSH. Reemplaza una imagen de 61KB: los valores
+   salen de muestrear el degradado original compuesto sobre blanco —
+   blanco arriba, lavanda a media altura, y abajo vira de morado (izquierda)
+   a azul (derecha). Las dos radiales son ese viraje de la franja inferior. */
+.whymsh-bg {
+  background-image:
+    radial-gradient(60% 45% at 8% 105%, #c48ee6 0%, transparent 70%),
+    radial-gradient(65% 45% at 98% 105%, #5fb3f6 0%, transparent 70%),
+    linear-gradient(to bottom, #ffffff 22%, #eee3fa 52%, #c9b2f1 80%, #a8a3ef 100%);
+}
 
 /* Capped at the widest frame we design for. Below that it's full-width — side
    spacing is handled per-section with padding utilities, not by the container.
