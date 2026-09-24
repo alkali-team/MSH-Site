@@ -44,7 +44,7 @@ export default function Differentiator() {
         className="pointer-events-none absolute right-0 cap-top-190 cap-w-1105"
       />
 
-      <div className="container relative z-10 cap-px-100 cap-py-20">
+      <div className="container relative z-10 uw-px-100 cap-py-20">
         <h2 className="font-arimo font-bold text-[#1f339e] uw-text-56 uw-leading-50 uw-mt-45">
           OUR DIFFERENTIATOR: BEYOND TECH
         </h2>

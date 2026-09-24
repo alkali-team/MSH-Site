@@ -10,7 +10,23 @@
        --cap-unit  the same, but frozen once the window passes --uw-cap
      --uw-cap is the ceiling, and the only number to change to move it. */
   --uw-cap: 2600;
-  --uw-unit: calc(100 / 1920 * 1vw);
+
+  /* How much of the growth ABOVE 1920 to keep. 1 = plain linear; 0.8 trims it
+     by 20%, which is where it landed after the linear curve overshot on wide
+     screens. This is the knob — change it here and both units follow.
+     The second term is that flattened line, pinned to pass through 1920. It
+     sits above the linear one below 1920 and below it above, so min() picks
+     linear up to 1920 and flattened after, with no media query and no seam. */
+  --uw-grow: 0.8;
+
+  --uw-unit: min(
+    calc(100 / 1920 * 1vw),
+    calc((1 - var(--uw-grow)) * 1px + var(--uw-grow) * 100 / 1920 * 1vw)
+  );
+  /* Deliberately NOT on --uw-grow: cap-* stays on the straight 1920 line and
+     just stops at the ceiling. Between 1920 and ~2770 that makes a cap-* value
+     run up to ~5% larger than the same number in uw-*, since uw-* flattens
+     there and this doesn't. Known and intended — don't "fix" it. */
   --cap-unit: min(calc(100 / 1920 * 1vw), calc(var(--uw-cap) / 1920 * 1px));
 }
 
