@@ -3,6 +3,7 @@ import AiAdvantage from "@/components/home/AiAdvantage";
 import AeonHire from "@/components/home/AeonHire";
 import Differentiator from "@/components/home/Differentiator";
 import WhyMsh from "@/components/home/WhyMsh";
+import Distinguished from "@/components/home/Distinguished";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <AeonHire />
       <Differentiator />
       <WhyMsh />
+      <Distinguished />
     </main>
   );
 }

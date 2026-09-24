@@ -42,7 +42,10 @@ export default function WhyMsh() {
     <section className="whymsh-bg relative w-full overflow-x-clip">
       <div className="container relative z-10 uw-py-100 uw-pl-100">
         <div className="flex items-start uw-gap-85">
-          <div>
+          {/* grow: absorbe el sobrante para que el panel quede al raz de la
+              derecha. El contenido crece 1.8x pero el viewport 2x, asi que
+              arriba de 1920 siempre sobra ancho que alguien tiene que comerse. */}
+          <div className="grow">
         {/* 2x2: texto y avatares arriba, dos tarjetas abajo que se alinean solas */}
         <div className="grid w-fit grid-cols-2 items-start uw-gap-x-29 uw-gap-y-52">
           <div className="flex flex-col">

@@ -80,8 +80,11 @@ body {
 @utility uw-left-*     { left:           calc(--value(integer) * var(--uw-unit)); }
 @utility uw-right-*    { right:          calc(--value(integer) * var(--uw-unit)); }
 @utility uw-mt-*       { margin-top:     calc(--value(integer) * var(--uw-unit)); }
+@utility uw-ml-*       { margin-left:    calc(--value(integer) * var(--uw-unit)); }
 @utility uw-pt-*       { padding-top:    calc(--value(integer) * var(--uw-unit)); }
+@utility uw-pb-*       { padding-bottom: calc(--value(integer) * var(--uw-unit)); }
 @utility uw-pl-*       { padding-left:   calc(--value(integer) * var(--uw-unit)); }
+@utility uw-pr-*       { padding-right:  calc(--value(integer) * var(--uw-unit)); }
 @utility uw-px-*       { padding-inline: calc(--value(integer) * var(--uw-unit)); }
 @utility uw-py-*       { padding-block:  calc(--value(integer) * var(--uw-unit)); }
 @utility uw-gap-*      { gap:            calc(--value(integer) * var(--uw-unit)); }
