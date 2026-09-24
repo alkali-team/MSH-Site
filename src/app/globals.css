@@ -138,6 +138,11 @@ body {
     font-size: min(calc(28 / 1920 * 100 * 1vw), calc(28 * var(--uw-cap) / 1920 * 1px));
     padding: 0.66em 1.32em;
     line-height:1;
+    /* The pill's font-size is capped at 2600 while the columns around it keep
+       scaling, so below 3840 it takes up proportionally more room than the
+       frame shows. Let it overflow its column rather than break the label
+       across two lines. */
+    white-space: nowrap;
     font-weight: 300;
     color: #1e1e1e;
   }

@@ -4,6 +4,8 @@ import AeonHire from "@/components/home/AeonHire";
 import Differentiator from "@/components/home/Differentiator";
 import WhyMsh from "@/components/home/WhyMsh";
 import Distinguished from "@/components/home/Distinguished";
+import Impact from "@/components/home/Impact";
+import Testimonials from "@/components/home/Testimonials";
 
 export default function Home() {
   return (
@@ -14,6 +16,8 @@ export default function Home() {
       <Differentiator />
       <WhyMsh />
       <Distinguished />
+      <Impact />
+      <Testimonials />
     </main>
   );
 }
