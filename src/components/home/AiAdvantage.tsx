@@ -23,7 +23,7 @@ import Image from "next/image";
  */
 export default function AiAdvantage() {
   return (
-    <section className="relative w-full bg-white lg:pt-[50px] uw:cap-pt-100 xw:pt-0">
+    <section className="relative w-full bg-white cap-pt-100 xw:pt-0">
       <div className="container relative z-10 flex flex-col items-center cap-px-100 xw:flex-row xw:items-start xw:gap-16 xw:px-[4.17%] xw:pb-10">
         {/*
           The orbs are flex siblings of the heading, not absolute on the
@@ -43,7 +43,7 @@ export default function AiAdvantage() {
             className="pointer-events-none relative shrink-0 -cap-top-75 cap-w-165 xw:absolute xw:top-[-7.00cqw] xw:left-[0.65cqw] xw:w-[35.18cqw]"
           />
 
-          <h2 className="text-center font-extrabold text-primary-navy lg:max-w-[950px] lg:text-[42px] lg:leading-[50px] uw:cap-max-w-1022 uw:uw-text-42 uw:uw-leading-50 xw:shrink-0 xw:text-right xw:max-w-full xw:text-[8.96cqw] xw:leading-[10.59cqw] xw:mt-[46.74cqw]">
+          <h2 className="text-center font-extrabold text-primary-navy cap-max-w-1022 uw-text-42 uw-leading-50 xw:shrink-0 xw:text-right xw:max-w-full xw:text-[8.96cqw] xw:leading-[10.59cqw] xw:mt-[46.74cqw]">
             Today&rsquo;s experienced recruiters use advanced systems to find
             better people, <em>faster</em>.
           </h2>

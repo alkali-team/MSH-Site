@@ -4,10 +4,14 @@
   --background: #ffffff;
   --foreground: #171717;
 
-  /* Ceiling for the `cap-*` utility family: they scale proportionally from
-     1920px up to this width, then freeze. Change it here and every cap-*
-     utility follows. */
+  /* One design pixel — the unit both scaling families are built from. An
+     element that is X px in the Figma 1920 frame is `calc(X * var(--uw-unit))`.
+       --uw-unit   grows 1:1 with the viewport, forever (X at 1920, 2X at 3840)
+       --cap-unit  the same, but frozen once the window passes --uw-cap
+     --uw-cap is the ceiling, and the only number to change to move it. */
   --uw-cap: 2600;
+  --uw-unit: calc(100 / 1920 * 1vw);
+  --cap-unit: min(calc(100 / 1920 * 1vw), calc(var(--uw-cap) / 1920 * 1px));
 }
 
 @theme inline {
@@ -16,9 +20,6 @@
 
   --font-sans: var(--font-avenir);
   --font-arimo: var(--font-arimo);
-
-  /* Above 1920px, the `uw:` variant kicks in for uncapped vw-based scaling (Responsive scaling rule in claude.md). Below 1920px use normal fixed/responsive classes. */
-  --breakpoint-uw: 120rem;
 
   /* 2560px — standard wide-monitor width. Above this the layout switches to
      the 3840 Figma design, which is a different composition, not the 1920 one
@@ -46,172 +47,66 @@ body {
   font-family: var(--font-sans);
 }
 
-/* DEFAULT ultra-wide scaling: plain proportional vw, 1:1 with viewport width.
-   Give X = the element's exact px value at the Figma 1920 frame, get back
-   the equivalent vw (X / 1920 * 100) */
-@utility uw-w-* {
-  width: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-h-* {
-  height: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-text-* {
-  font-size: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-leading-* {
-  line-height: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-max-w-* {
-  max-width: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-top-* {
-  top: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-left-* {
-  left: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-right-* {
-  right: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-mt-* {
-  margin-top: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-pt-* {
-  padding-top: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-pl-* {
-  padding-left: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-px-* {
-  padding-inline: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-py-* {
-  padding-block: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-gap-* {
-  gap: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-gap-x-* {
-  column-gap: calc(--value(integer) / 1920 * 100 * 1vw);
-}
-@utility uw-gap-y-* {
-  row-gap: calc(--value(integer) / 1920 * 100 * 1vw);
-}
+/* Scaling utilities. X = the element's exact px value in the Figma 1920 frame.
 
-/* CAPPED scaling: same proportional growth as uw-*, but it stops at
-   --uw-cap (2600px) instead of growing forever. Use this where uncapped
-   growth gets absurd on very wide screens — padding, gaps, side margins.
-   X is still the element's exact px value at the Figma 1920 frame.
-   e.g. cap-px-122 → 122px at 1920, 165.2px at 2600, and stays 165.2px at 3840.
-   Pair with the `uw:` variant, same as the uw-* family. */
-@utility cap-w-* {
-  width: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-h-* {
-  height: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-text-* {
-  font-size: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-leading-* {
-  line-height: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-max-w-* {
-  max-width: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-top-* {
-  top: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-left-* {
-  left: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-right-* {
-  right: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-mt-* {
-  margin-top: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-pt-* {
-  padding-top: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-px-* {
-  padding-inline: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-py-* {
-  padding-block: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-gap-* {
-  gap: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-p-* {
-  padding: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-gap-x-* {
-  column-gap: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-gap-y-* {
-  row-gap: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-pb-* {
-  padding-bottom: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-pl-* {
-  padding-left: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-pr-* {
-  padding-right: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-my-* {
-  margin-block: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-mb-* {
-  margin-bottom: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-ml-* {
-  margin-left: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-mx-* {
-  margin-inline: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-mr-* {
-  margin-right: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
-@utility cap-rounded-* {
-  border-radius: min(calc(--value(integer) / 1920 * 100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * 1px));
-}
+   The whole formula lives in --uw-unit / --cap-unit up in :root, so every rule
+   here is one multiplication. X * min(a,b) == min(X*a, X*b), so multiplying by
+   the capped unit caps the result — and a negative is just * -1, which is why
+   these no longer need the max() the old capped negatives did. */
 
-/* Negative offsets. Write the number unsigned — `-uw-top-50` is -50px at 1920.
-   If a capped negative is ever needed, it has to use max() instead of min():
-   with negative numbers the ceiling is the *larger* value, so min() would let
-   it keep growing past the cap instead of freezing. */
-@utility -uw-top-* {
-  top: calc(--value(integer) / 1920 * -100 * 1vw);
-}
-@utility -uw-left-* {
-  left: calc(--value(integer) / 1920 * -100 * 1vw);
-}
-@utility -uw-right-* {
-  right: calc(--value(integer) / 1920 * -100 * 1vw);
-}
-@utility -cap-mt-* {
-  margin-top: max(calc(--value(integer) / 1920 * -100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * -1px));
-}
-@utility -cap-top-* {
-  top: max(calc(--value(integer) / 1920 * -100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * -1px));
-}
-@utility -cap-left-* {
-  left: max(calc(--value(integer) / 1920 * -100 * 1vw), calc(--value(integer) * var(--uw-cap) / 1920 * -1px));
-}
+/* Uncapped — grows 1:1 with the viewport, forever. */
+@utility uw-w-*        { width:          calc(--value(integer) * var(--uw-unit)); }
+@utility uw-h-*        { height:         calc(--value(integer) * var(--uw-unit)); }
+@utility uw-max-w-*    { max-width:      calc(--value(integer) * var(--uw-unit)); }
+@utility uw-text-*     { font-size:      calc(--value(integer) * var(--uw-unit)); }
+@utility uw-leading-*  { line-height:    calc(--value(integer) * var(--uw-unit)); }
+@utility uw-top-*      { top:            calc(--value(integer) * var(--uw-unit)); }
+@utility uw-left-*     { left:           calc(--value(integer) * var(--uw-unit)); }
+@utility uw-right-*    { right:          calc(--value(integer) * var(--uw-unit)); }
+@utility uw-mt-*       { margin-top:     calc(--value(integer) * var(--uw-unit)); }
+@utility uw-pt-*       { padding-top:    calc(--value(integer) * var(--uw-unit)); }
+@utility uw-pl-*       { padding-left:   calc(--value(integer) * var(--uw-unit)); }
+@utility uw-px-*       { padding-inline: calc(--value(integer) * var(--uw-unit)); }
+@utility uw-py-*       { padding-block:  calc(--value(integer) * var(--uw-unit)); }
+@utility uw-gap-*      { gap:            calc(--value(integer) * var(--uw-unit)); }
+@utility uw-gap-x-*    { column-gap:     calc(--value(integer) * var(--uw-unit)); }
+@utility uw-gap-y-*    { row-gap:        calc(--value(integer) * var(--uw-unit)); }
 
+/* Capped — same growth, then flat from --uw-cap (2600) on. */
+@utility cap-w-*       { width:          calc(--value(integer) * var(--cap-unit)); }
+@utility cap-h-*       { height:         calc(--value(integer) * var(--cap-unit)); }
+@utility cap-max-w-*   { max-width:      calc(--value(integer) * var(--cap-unit)); }
+@utility cap-text-*    { font-size:      calc(--value(integer) * var(--cap-unit)); }
+@utility cap-leading-* { line-height:    calc(--value(integer) * var(--cap-unit)); }
+@utility cap-top-*     { top:            calc(--value(integer) * var(--cap-unit)); }
+@utility cap-left-*    { left:           calc(--value(integer) * var(--cap-unit)); }
+@utility cap-right-*   { right:          calc(--value(integer) * var(--cap-unit)); }
+@utility cap-mt-*      { margin-top:     calc(--value(integer) * var(--cap-unit)); }
+@utility cap-mb-*      { margin-bottom:  calc(--value(integer) * var(--cap-unit)); }
+@utility cap-ml-*      { margin-left:    calc(--value(integer) * var(--cap-unit)); }
+@utility cap-mr-*      { margin-right:   calc(--value(integer) * var(--cap-unit)); }
+@utility cap-mx-*      { margin-inline:  calc(--value(integer) * var(--cap-unit)); }
+@utility cap-my-*      { margin-block:   calc(--value(integer) * var(--cap-unit)); }
+@utility cap-p-*       { padding:        calc(--value(integer) * var(--cap-unit)); }
+@utility cap-pt-*      { padding-top:    calc(--value(integer) * var(--cap-unit)); }
+@utility cap-pb-*      { padding-bottom: calc(--value(integer) * var(--cap-unit)); }
+@utility cap-pl-*      { padding-left:   calc(--value(integer) * var(--cap-unit)); }
+@utility cap-pr-*      { padding-right:  calc(--value(integer) * var(--cap-unit)); }
+@utility cap-px-*      { padding-inline: calc(--value(integer) * var(--cap-unit)); }
+@utility cap-py-*      { padding-block:  calc(--value(integer) * var(--cap-unit)); }
+@utility cap-gap-*     { gap:            calc(--value(integer) * var(--cap-unit)); }
+@utility cap-gap-x-*   { column-gap:     calc(--value(integer) * var(--cap-unit)); }
+@utility cap-gap-y-*   { row-gap:        calc(--value(integer) * var(--cap-unit)); }
+@utility cap-rounded-* { border-radius:  calc(--value(integer) * var(--cap-unit)); }
 
-/* Arrow that sits after the label on CTA buttons. Kept out of the JSX because
-   the Figma SVG export embeds the whole 1920x1080 source image just to show a
-   ~19x20 crop — this is that crop, saved as a 2.4KB png instead.
-   Add `cta-arrow` to a flex container; it comes in as the last flex item, so
-   the container's own `gap` controls the spacing. */
-/* Shared look of every CTA pill. Only the sizing (height, width, padding,
-   gap, font-size, margins) stays in the component, since that differs per
-   section — everything visual lives here so it isn't repeated per button. */
+/* Negative offsets. Write the number unsigned: -uw-top-50 is -50px at 1920. */
+@utility -uw-top-*     { top:            calc(--value(integer) * var(--uw-unit) * -1); }
+@utility -uw-left-*    { left:           calc(--value(integer) * var(--uw-unit) * -1); }
+@utility -uw-right-*   { right:          calc(--value(integer) * var(--uw-unit) * -1); }
+@utility -cap-mt-*     { margin-top:     calc(--value(integer) * var(--cap-unit) * -1); }
+@utility -cap-top-*    { top:            calc(--value(integer) * var(--cap-unit) * -1); }
+@utility -cap-left-*   { left:           calc(--value(integer) * var(--cap-unit) * -1); }
+
 @layer components {
   .cta-arrow {
     position: relative;
@@ -239,19 +134,11 @@ body {
       var(--default-transition-timing-function);
   }
 
-  /* On hover only the arrow moves, not the button. The offset is a percentage of
-     the arrow's own width, so it stays proportional on every screen size instead
-     of being a fixed nudge that looks tiny on a 4K display. */
   .cta-arrow:hover::after {
     translate: 10% 0;
   }
 }
 
-
-/* Fondo de la seccion Why MSH. Reemplaza una imagen de 61KB: los valores
-   salen de muestrear el degradado original compuesto sobre blanco —
-   blanco arriba, lavanda a media altura, y abajo vira de morado (izquierda)
-   a azul (derecha). Las dos radiales son ese viraje de la franja inferior. */
 .whymsh-bg {
   background-image:
     radial-gradient(60% 45% at 8% 105%, #c48ee6 0%, transparent 70%),
@@ -259,10 +146,6 @@ body {
     linear-gradient(to bottom, #ffffff 22%, #eee3fa 52%, #c9b2f1 80%, #a8a3ef 100%);
 }
 
-/* Capped at the widest frame we design for. Below that it's full-width — side
-   spacing is handled per-section with padding utilities, not by the container.
-   `margin-inline: auto` keeps it centred once past the cap; without it the
-   layout would sit against the left edge on anything wider than 3840. */
 @utility container {
   width: 100%;
   max-width: 3840px;

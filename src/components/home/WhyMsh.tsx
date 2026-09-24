@@ -88,7 +88,7 @@ export default function WhyMsh() {
         </div>
 
 
-            <p className="font-normal text-text-default uw-mt-93 uw-text-36 uw-leading-49">
+            <p className="font-normal text-text-default uw-mt-93 cap-text-36 cap-leading-49">
               Love the hires you make at the speed your team needs.
             </p>
           </div>

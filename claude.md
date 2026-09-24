@@ -12,33 +12,33 @@
 
 ## Responsive scaling rule
 - The Figma desktop frame at **1920px width** is the pixel-perfect reference.
-- **Below 1920px down to the mobile breakpoint**: standard fixed responsive behavior (normal Tailwind breakpoints, e.g. `lg:`) — no fluid scaling here.
-- **Above 1920px**: uncapped growth, gated by a custom `uw:` variant (`--breakpoint-uw: 120rem` in `globals.css` — **must be `rem` not `px`**, or Tailwind mis-sorts it against `lg`/`xl`/`2xl` in the cascade and it gets silently overridden).
-- **Above 1920px there are two families of utilities**, both taking `X` = the element's exact px value in the Figma 1920 frame, both used behind the `uw:` variant:
+- **Everything scales, in both directions, with no fixed range.** A value is proportional to the viewport the whole way: at exactly 1920 it equals its Figma value, below that it shrinks proportionally, above it grows. Verified 1024 → 3840.
+- **Write the utilities bare — no `lg:`, no `uw:`.** An earlier model paired a fixed value with a scaled one (`lg:text-[42px] uw:uw-text-42`); it was deliberately collapsed to a single `uw-text-42`. Don't reintroduce the pair — `--breakpoint-uw` no longer exists, and `xw:` is the only prefix left in the codebase.
+- **Two families of utilities**, both taking `X` = the element's exact px value in the Figma 1920 frame:
   - **`uw-*` — grows forever** (plain proportional `vw`, 1:1 with viewport width). A 57px element becomes `2.969vw`: 57px at 1920, 114px at 3840.
   - **`cap-*` — grows, then freezes at `--uw-cap` (2600px)**. Same growth from 1920 to 2600, then stops. `cap-px-122` → 122px at 1920, 165.2px at 2600, still 165.2px at 3840. There is no `@media` breakpoint at the cap — it falls out of a `min()` between the growing `vw` term and a fixed `X * cap / 1920` ceiling. Use this where uncapped growth gets absurd on very wide screens — padding, gaps, side margins. The ceiling lives in one place (`--uw-cap` in `:root`).
-  - Both families cover: `-w-`, `-h-`, `-text-`, `-leading-`, `-max-w-`, `-top-`, `-left-`, `-right-`, `-mt-`, `-pt-`, `-px-`, `-gap-`. Add more following the same one-line pattern as needed.
+  - Every rule is **one line**, built from `--uw-unit` / `--cap-unit` in `:root`. The formula lives in those two variables, not in each utility, so `X * min(a,b) == min(X*a, X*b)` does the capping and `* -1` does the negatives. `cap-*` covers every box property; `uw-*` only the subset the components use. Adding one is a single line — but **check it exists before using it**: a class with no utility behind it generates nothing and Tailwind never warns. Six dead classes (`uw-pl-*`, `uw-py-*`, `uw-gap-x-*`, `uw-gap-y-*`) once shipped in WhyMsh this way.
   - **Type uses `uw-*`; everything else uses `cap-*`.** Font sizes and line heights (`uw-text-*`, `uw-leading-*`) keep growing past 2600 so they stay in proportion with the layout around them. Spacing, sizes and positioning stay on `cap-*`, which freezes at 2600. (This reverses an earlier rule that put type on `cap-*` — the user changed it after seeing type fall out of scale on wide screens.)
   - Exceptions signed off so far, don't "fix" them back to `cap-*`:
     - `Header.tsx` keeps a couple of `uw-*` classes on purpose.
     - The hero collage in `home/Intro.tsx` uses `uw-*` **for its width only**. It's a full-bleed graphic: capping the width makes it shrink to ~50% of a 3840px screen instead of holding its 74.7%, leaving it floating small in the middle. Its vertical offset stays on `cap-*`, because that position is relative to the text block above it and the text is capped — the two have to stay in sync.
-  - Both families also work **unprefixed** (no `uw:`), which makes them fluid all the way down instead of only above 1920. Required for any value larger than the breakpoint that would activate it — e.g. `lg:w-[1434px]` overflows every window narrower than 1434px.
+  - **Only cap what a 3840 frame takes over.** `cap-*` freezes at 2600, so it is safe only where an `xw:` rule steps in above 2560. Most pages have a 1920 frame and nothing else — there a capped value leaves the section frozen small on a 4K screen with nothing to replace it. That is the reason type moved to `uw-*`.
 
 ### The 3840 frame — `xw:` (2560px)
 Some sections are designed twice: a 1920 frame and a 3840 one that is a **different composition**, not the 1920 one scaled up (e.g. home's AI Advantage section: heading on top at 1920, heading in a left column at 3840).
 
 - Custom breakpoint `--breakpoint-xw: 160rem` (2560px) switches to the 3840 composition. 2560 is a standard wide-monitor width and sits just under `--uw-cap`, so the 1920 layout hands off right before it would freeze.
 - **Above 2560 the sizes are static — no scaling at all.** Use plain arbitrary values taken straight from the 3840 frame (`xw:text-[92px]`, `xw:w-[2830px]`). There is deliberately no vw-based utility family for this range: the whole point of the breakpoint is that the composition changes, not that it keeps growing.
-- So the three ranges are: fixed `lg:` values from the 1920 frame → `uw:` scaling between 1920 and 2560 → fixed `xw:` values from the 3840 frame.
-- All breakpoints in use: `lg:` 1024 (the 1920 design's values), `uw:` 1920 (scaling), `xw:` 2560 (structural switch).
+- So there are **two ranges, not three**: scaled values from the 1920 frame everywhere, then fixed `xw:` values from the 3840 frame above 2560.
+- `xw:` is the only breakpoint in use. `--breakpoint-xw` must stay in `rem` — Tailwind sorts breakpoints by value and a `px` one gets mis-ordered against the `rem` defaults, losing the cascade silently.
 
 ### Gotchas with these utilities
 - They match a **bare integer** only. `uw-top-[-100]` and `rotate-x-10deg` silently generate nothing — Tailwind never warns about a class that doesn't exist, so an element just won't move. `uw-top-100` is the form.
-- Negatives are a separate utility with the dash in front: `-uw-top-100`, not `uw-top--100`. Capped negatives must use `max()` rather than `min()` — with negative numbers the ceiling is the larger value.
+- Negatives are a separate utility with the dash in front: `-uw-top-100`, not `uw-top--100`. They are just `* -1` on the unit — the old "capped negatives need `max()` instead of `min()`" rule is gone, since multiplying by the capped unit already caps the result.
 - Don't write `*/` inside a CSS comment in `globals.css` (e.g. spelling a pair of families as `uw-*/cap-*`) — it closes the comment early and breaks the file.
-- A custom faster-than-linear growth formula was tried and **rejected** — don't reintroduce it as the default. It was fit from two guessed/eyeballed target sizes (not real Figma data): 57px→135.65px (1920→3840) for one element implied a ~2.38x growth factor at 3840, but a second element's guessed target (1434px→2721px) implied a DIFFERENT, slower-than-linear factor (~1.9x) — proving there's no single universal growth curve across different elements, just imprecise guessing. The formula is still defined in `globals.css` as `uw-w-<X>` / `uw-h-<X>` / `uw-text-<X>` utilities (not deleted, kept in case a specific element ever gets a real, confirmed (not eyeballed) target size at a specific width) — but it is NOT the default; use plain `vw` values unless told otherwise for a specific element.
-- Mobile is a **separate Figma frame/layout**, not a scaled-down version of desktop.
-- Exact mobile breakpoint width: TBD, pending inspection of the Figma mobile frame.
+- A custom faster-than-linear growth formula was tried and **rejected** — don't reintroduce it as the default. It was fit from two guessed/eyeballed target sizes (not real Figma data): 57px→135.65px (1920→3840) for one element implied a ~2.38x growth factor at 3840, but a second element's guessed target (1434px→2721px) implied a DIFFERENT, slower-than-linear factor (~1.9x) — proving there's no single universal growth curve across different elements, just imprecise guessing. It is no longer in `globals.css` — the utilities there are plain proportional `vw`. Don't add it back unless a specific element gets a real, confirmed (not eyeballed) target size at a specific width.
+- Mobile is a **separate Figma frame/layout**, not a scaled-down version of desktop, and it starts below 1024.
+- **The mobile pass works by wrapping, not by adding.** Tailwind is mobile-first, so the bare slot currently holds the desktop values and would apply on a phone too — `uw-text-42` renders 8.5px at 390px wide. Every scaling class has to move behind `lg:` (`lg:uw-text-42`), freeing the bare slot for the mobile frame's values. `lg:` (1024) is already the right line; no new breakpoint is needed.
 
 ## Component structure & conventions
 

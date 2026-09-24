@@ -20,18 +20,18 @@ export default function Intro() {
       {/* decorative blur pills, cropped at the frame edges by design */}
       <div className="container relative z-10 flex flex-col items-center text-center text-text-default">
         <div className="flex flex-col items-center">
-        <h1 className="font-extrabold lg:text-[42px] lg:leading-[54px] uw:uw-text-42 uw:uw-leading-54">
+        <h1 className="font-extrabold uw-text-42 uw-leading-54">
           Scale Your Team With High Quality, Vetted Professionals
         </h1>
 
-        <p className="font-normal lg:mt-[38px] lg:max-w-[801px] lg:text-[24px] lg:leading-[32px] uw:cap-mt-38 uw:cap-max-w-801 uw:uw-text-24 uw:uw-leading-32">
+        <p className="font-normal cap-mt-38 cap-max-w-801 uw-text-24 uw-leading-32">
           Companies work with us to quickly staff teams of 20 to 1,000. Build
           your sustainable team with great people who fit your unique culture.
         </p>
 
         <a
           href="#"
-          className="cta-arrow lg:mt-[47px] uw:cap-mt-47"
+          className="cta-arrow cap-mt-47"
         >
           Get a Consultation
         </a>
@@ -64,7 +64,7 @@ export default function Intro() {
           />
         </div>
 
-        <p className="font-light lg:max-w-[494px] lg:text-[24px] lg:leading-[26px] uw:cap-max-w-494 uw:uw-text-24 uw:uw-leading-26 relative -uw-top-100">
+        <p className="font-light uw-max-w-494 uw-text-24 uw-leading-26 relative -uw-top-150">
           We place technology and talent at the intersection of every critical
           business function.
         </p>
