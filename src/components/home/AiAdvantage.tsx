@@ -34,23 +34,23 @@ export default function AiAdvantage() {
           rather than the section's, so they survive any change to section
           padding.
         */}
-        <div className="flex w-full items-start justify-center cap-gap-21 xw:@container xw:relative xw:block xw:w-[17.44%] xw:shrink-0">
+        <div className="flex w-full flex-col items-start justify-center cap-gap-21 lg:flex-row xw:@container xw:relative xw:block xw:w-[17.44%] xw:shrink-0">
           <Image
             src="/images/home/orb-left.png"
             alt=""
             aria-hidden
             width={331}
             height={302}
-            className="pointer-events-none relative shrink-0 -cap-top-75 cap-w-165 xw:absolute xw:top-[-7.00cqw] xw:left-[0.65cqw] xw:w-[35.18cqw]"
+            className="pointer-events-none relative shrink-0 -cap-top-75 mob-w-100 lg:cap-w-165 xw:absolute xw:top-[-7.00cqw] xw:left-[0.65cqw] xw:w-[35.18cqw]"
           />
 
-          <h2 className="text-center font-extrabold text-primary-navy cap-max-w-1022 uw-text-42 uw-leading-50 xw:shrink-0 xw:text-right xw:max-w-full xw:text-[8.96cqw] xw:leading-[10.59cqw] xw:mt-[46.74cqw]">
+          <h2 className="text-center font-extrabold text-primary-navy mob-max-w-1022 mob-text-36 mob-leading-40 lg:cap-max-w-1022 lg:uw-text-42 lg:uw-leading-50 xw:shrink-0 xw:text-right xw:max-w-full xw:text-[8.96cqw] xw:leading-[10.59cqw] xw:mt-[46.74cqw]">
             Today&rsquo;s experienced recruiters use advanced systems to find
             better people, <em>faster</em>.
           </h2>
 
           {/* these two overlap each other by design, so they need their own box */}
-          <div className="pointer-events-none relative shrink-0 -cap-top-213 cap-w-297 xw:absolute xw:top-[88.93cqw] xw:left-[11.40cqw] xw:w-[95.11cqw]">
+          <div className="hidden pointer-events-none relative shrink-0 -cap-top-213 cap-w-297 lg:block xw:absolute xw:top-[88.93cqw] xw:left-[11.40cqw] xw:w-[95.11cqw]">
             <Image
               src="/images/home/moon.png"
               alt=""
@@ -70,7 +70,7 @@ export default function AiAdvantage() {
           </div>
         </div>
 
-        <div className="@container relative w-full cap-mt-71 xw:mt-0 xw:flex-1">
+        <div className="@container relative w-full mob-mt-50 lg:cap-mt-71 xw:mt-0 xw:flex-1">
           <Image
             src="/images/home/ai-card.webp"
             alt="MSH recruiter using AI-assisted hiring technology"
@@ -80,21 +80,25 @@ export default function AiAdvantage() {
           />
 
           <div className="absolute inset-0 flex justify-between text-white">
-            <div className="self-start text-left pt-[5.46cqw] pl-[5.57cqw]">
+            {/* Mobile: both taglines sit at the top, side by side. The body
+                paragraphs move out of the card entirely below (own block,
+                own section) — the card is too short on mobile to hold both
+                a tagline and body copy per side like the desktop frame does. */}
+            <div className="self-start text-left pt-[5.46cqw] pl-[5.57cqw] mt-[24cqw] lg:mt-0">
               <p className="font-arimo font-bold max-w-[24.03cqw] text-[3.25cqw] leading-[3.73cqw]">
                 AI is <em>not</em> their <em>reliance</em>.
               </p>
-              <p className="font-normal mt-[5.23cqw] max-w-[25.19cqw] text-[1.27cqw] leading-[1.74cqw]">
+              <p className="hidden font-normal mt-[5.23cqw] max-w-[25.19cqw] text-[1.27cqw] leading-[1.74cqw] lg:block">
                 MSH is an established executive recruiting firm delivering
                 deeper talent qualification before the first interview.
               </p>
             </div>
 
-            <div className="flex flex-col items-end self-end text-right pb-[2.90cqw] pr-[3.71cqw]">
+            <div className="flex flex-col items-start self-start text-left pt-[5.46cqw] pr-[5.57cqw] lg:items-end lg:self-end lg:pt-0 lg:pr-[3.71cqw] lg:pb-[2.90cqw] lg:text-right">
               <p className="font-arimo font-bold max-w-[22.23cqw] text-[3.25cqw] leading-[3.73cqw]">
                 It&rsquo;s their <em>advantage</em>.
               </p>
-              <p className="font-light mt-[5.23cqw] max-w-[19.33cqw] text-[1.27cqw] leading-[1.39cqw]">
+              <p className="hidden font-light mt-[5.23cqw] max-w-[19.33cqw] text-[1.27cqw] leading-[1.39cqw] lg:block">
                 We leverage 15 years of recruiting expertise with intelligent
                 hiring technology to help organizations hire based on evidence,
                 not instinct.
@@ -108,8 +112,42 @@ export default function AiAdvantage() {
             aria-hidden
             width={218}
             height={222}
-            className="pointer-events-none absolute top-[33.26cqw] left-[3.54cqw] w-[6.33cqw]"
+            className="pointer-events-none absolute top-[33.26cqw] right-[3.54cqw] w-[6.33cqw] lg:right-auto lg:left-[3.54cqw]"
           />
+        </div>
+
+        {/* Mobile only: the two body paragraphs the card overlay holds on
+            desktop, as normal stacked copy below the card instead. */}
+        <div className="flex w-full flex-col gap-8 mt-8 lg:hidden">
+          <div className="ml-5 flex gap-6">
+            <span className="mt-1 w-2 shrink-0 self-stretch rounded-full bg-[#3C70FD]" />
+            <p className="mob-text-20 text-primary-blue mob-leading-28">
+              MSH is an established executive recruiting firm delivering
+              deeper talent qualification before the first interview.
+            </p>
+          </div>
+
+          <div className="relative  ml-5">
+            <p className=" text-text-default font-bold mob-text-24 mob-leading-32">
+              <span
+                aria-hidden
+                className="float-right h-45 w-61.5 [shape-outside:polygon(74%_16%,0_100%,63%_100%)]"
+              />
+              We leverage 15 years of recruiting expertise with intelligent
+              hiring technology to help organizations hire based on evidence,
+              not instinct.
+            </p>
+            <div className="">
+              <Image
+                src="/images/home/two-balls.png"
+                alt=""
+                aria-hidden
+                width={424}
+                height={455}
+                className="absolute mob-top-10 right-0 mob-w-200"
+              />
+            </div> 
+          </div>
         </div>
       </div>
     </section>
