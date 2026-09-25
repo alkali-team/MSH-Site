@@ -24,7 +24,8 @@ import Image from "next/image";
 export default function AiAdvantage() {
   return (
     <section className="relative w-full bg-white cap-pt-100 xw:pt-0">
-      <div className="container relative z-10 flex flex-col items-center uw-px-100 xw:flex-row xw:items-start xw:gap-16 xw:pb-10">
+      <div className="container relative z-10 flex flex-col items-center uw-px-100 xw:flex-row 
+      xw:items-start xw:gap-16 xw:pb-10 xw:pt-20">
         {/*
           The orbs are flex siblings of the heading, not absolute on the
           section — that's what stops them overlapping it when the heading
