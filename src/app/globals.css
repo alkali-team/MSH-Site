@@ -175,3 +175,62 @@ body {
   max-width: 3840px;
   margin-inline: auto;
 }
+
+
+
+/* Tarjetas a 1 posición del centro (quedan pegadas con el GAP base)
+   Values as design px scaled through --uw-unit — same "X px at 1920" rule as
+   every uw-* utility, just written directly since these target Swiper's own
+   generated classes via :has(), which no className-based utility can reach. */
+.swiper-slide-prev {
+  margin-left: calc(15 * var(--uw-unit)) !important;
+  margin-right: calc(-20 * var(--uw-unit)) !important;
+}
+
+.swiper-slide-next{
+  margin-left: calc(-20 * var(--uw-unit)) !important;
+  margin-right: calc(15 * var(--uw-unit)) !important;
+}
+
+.swiper-slide-next + .swiper-slide {
+  margin-right: calc(25 * var(--uw-unit)) !important;
+  margin-left: calc(-15 * var(--uw-unit)) !important;
+}
+
+
+.swiper-slide:has(+ .swiper-slide-prev) {
+  margin-right: calc(-15 * var(--uw-unit)) !important;
+  margin-left: calc(25 * var(--uw-unit)) !important;
+}
+
+
+.swiper-slide:has(+ .swiper-slide + .swiper-slide-prev) {
+  margin-left: calc(-10 * var(--uw-unit)) !important;
+}
+
+
+
+@media screen and (min-width: 3000px) {
+ .swiper-slide-prev {
+  margin-left: calc(18 / 1.8 * var(--uw-unit)) !important;
+  margin-right: calc(-72 / 1.8 * var(--uw-unit)) !important;
+}
+
+.swiper-slide:has( + .swiper-slide-prev){
+  margin-right: calc(-37 / 1.8 * var(--uw-unit)) !important;
+  margin-left: calc(88 / 1.8 * var(--uw-unit)) !important;
+
+}
+
+.swiper-slide-next {
+  margin-left: calc(-72 / 1.8 * var(--uw-unit)) !important;
+  margin-right: calc(18 / 1.8 * var(--uw-unit)) !important;
+}
+
+.swiper-slide-next + .swiper-slide {
+
+  margin-left: calc(-37 / 1.8 * var(--uw-unit)) !important;
+  margin-right: calc(88 / 1.8 * var(--uw-unit)) !important;
+}
+
+}
